@@ -14,13 +14,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go: [1.x, ""]
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+        runner:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        include:
+          - {go-version: 1.x, go-version-file: ""}
+          - {go-version: "", go-version-file: go.mod}
+    runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: ${{ matrix.go }}
-          go-version-file: go.mod
+          go-version: ${{ matrix.go-version }}
+          go-version-file: ${{ matrix.go-version-file }}
       - run: go test -race ./...
