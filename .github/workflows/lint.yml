@@ -19,8 +19,10 @@ jobs:
           - macos-latest
           - windows-latest
         include:
-          - {go-version: 1.x, go-version-file: ""}
-          - {go-version: "", go-version-file: go.mod}
+          - go-version: ""
+            go-version-file: go.mod
+          - go-version: 1.x
+            go-version-file: ""
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
