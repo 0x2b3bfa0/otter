@@ -54,13 +54,14 @@ var initCmd = &cobra.Command{
 	Short: "Initializes a new Otter project",
 	Long:  `Set up a new Otter project to get you developing asap`,
 	Run: func(c *cobra.Command, args []string) {
-		if len(args) < 1 {
-			panic("You should provide a project name in the form `otter init {githubUser}/{repositoryName}`")
-		}
-
 		verbose, _ := cmd.Flags().GetBool("verbose")
 
 		logger := log.NewLogger(verbose)
+
+		if len(args) < 1 {
+			fatal(logger, errors.New("you should provide a project name in the form `otter init {githubUser}/{repositoryName}`"))
+		}
+
 		projectName := args[0]
 		githubUser := ""
 		repositoryName := ""
